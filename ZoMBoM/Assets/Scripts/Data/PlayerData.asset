@@ -16,9 +16,16 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 2048
-  movementSpeed: 10
-  jumpHeight: 5
+  movementSpeed: 3
+  jumpHeight: 1.3
   fullJumpTime: 1
-  jumpCount: 3
+  jumpCount: 0
   minTimeForFullJump: 0.1
   counterJumpForce: 4
+  dashForce: 30
+  dashTime: 0.5
+  timeBetweenDash: 0.3
+  enemyAgroRadious: 10
+  enemyMask:
+    serializedVersion: 2
+    m_Bits: 8192

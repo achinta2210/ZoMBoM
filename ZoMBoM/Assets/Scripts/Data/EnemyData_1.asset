@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0d9a69e2c9bc6d48a5def8c908f1efc, type: 3}
+  m_Name: EnemyData_1
+  m_EditorClassIdentifier: 
+  explosionPartice: {fileID: -8312548578921293559, guid: f3adba5f843b32449877b3fd45a53f03, type: 3}
+  minExplosionRad: 1
+  maxExplosionRad: 3
+  playerMask:
+    serializedVersion: 2
+    m_Bits: 4096
+  explosionForce: 13
+  playerStunTime: 0.4
+  minExplosionDeley: 0.1
+  maxExplosionDeley: 0.6
+  explosionMat: {fileID: 2100000, guid: c4def1f0565044844a3e2e26c60b9b40, type: 2}
