@@ -3,6 +3,7 @@ using UnityEngine;
 using ZOMBOM.Movement;
 using ZOMBOM.InputManager;
 using ZOMBOM.Data;
+using ZOMBOM.Combat;
 
 namespace ZOMBOM.Control
 {
@@ -12,14 +13,19 @@ namespace ZOMBOM.Control
         [SerializeField] D_PlayerData data = null;
         [SerializeField] Transform body = null;
         int jumpsLeft;
-        Mover mover;
         InputHandler input;
+        PlayerCombat combat;
+        public Mover mover { get; private set; }
+
+
         float timeSinceJumpStarted;
         Vector3 lastDir;
+        bool canAttck;
         private void Start()
         {
             mover = GetComponent<Mover>();
             input = GetComponent<InputHandler>();
+            combat = GetComponent<PlayerCombat>();
             jumpsLeft = data.jumpCount;
             timeSinceJumpStarted = data.minTimeForFullJump;
         }
@@ -32,7 +38,11 @@ namespace ZOMBOM.Control
             }
             mover.RotateBody(body, lastDir);
             HandleJumop();
-
+            HandleDash();
+        }
+        private void FixedUpdate()
+        {
+            AggrovateEnemy();
         }
 
         private void HandleJumop()
@@ -44,30 +54,49 @@ namespace ZOMBOM.Control
                 timeSinceJumpStarted = data.minTimeForFullJump;
 
             }
-            if (CheckForGround() && mover.rb.velocity.y <= 0.0f)
+            if (mover.CheckForGround() && mover.rb.velocity.y < -1f)
             {
                 jumpsLeft = data.jumpCount;
+
             }
-            if (input.JumpUp && !CheckForGround() && timeSinceJumpStarted > 0.0f)
+            
+            if (input.JumpUp && !mover.CheckForGround() && timeSinceJumpStarted > 0.0f)
             {
                 mover.ApplyDownForce(data.counterJumpForce);
             }
             timeSinceJumpStarted = Mathf.Min(timeSinceJumpStarted - Time.deltaTime);
         }
 
-        bool CheckForGround()
+        
+
+        public void HandleDash()
         {
-            return Physics.CheckSphere(groundCheck.position , data.groundCheckRadious , data.groundMask);
+            if (input.Dash)
+            {
+                mover.Dash(data.dashForce, body.forward, data.dashTime , data.timeBetweenDash);
+            }   
         }
+        
+        public void AggrovateEnemy()
+        {
+            Collider[] colliders = 
+            Physics.OverlapSphere(transform.position , data.enemyAgroRadious , data.enemyMask);
+            foreach(Collider collider in colliders)
+            {
+                collider.GetComponent<EnemyController>().SetTarget(this.transform);
+            }
+        }
+       
         bool CanJump()
         {
             return jumpsLeft > 0;
         }
-
         private void OnDrawGizmos()
         {
-            Gizmos.DrawWireSphere(groundCheck.position , data.groundCheckRadious);
+            Gizmos.DrawWireSphere(transform.position , data.enemyAgroRadious);
         }
+
+
     }
 
 }

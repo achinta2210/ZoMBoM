@@ -18,6 +18,11 @@ namespace ZOMBOM.Data
         public int jumpCount = 2;
         public float minTimeForFullJump = 1f;
         public float counterJumpForce = 4f;
+        public float dashForce = 40f;
+        public float dashTime = 1.0f;
+        public float timeBetweenDash = 2.3f;
+        public float enemyAgroRadious = 2.9f;
+        public LayerMask enemyMask;
     }
 
 }
